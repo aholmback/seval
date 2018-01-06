@@ -1,7 +1,9 @@
 const express = require('express')
-const app = express()
+
 const router = require('./router.js')
+
 const http = require('http');
+const app = express()
 const server = http.createServer(app);
 
 app.use(router)
