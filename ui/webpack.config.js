@@ -8,6 +8,7 @@ module.exports = {
     app: './src/index.js',
     print: './src/print.js'
   },
+  devtool: 'source-map',
   plugins: [
     new ManifestPlugin(),
     new CleanWebpackPlugin([path.resolve(__dirname, 'dist')]),

@@ -2,9 +2,9 @@
   "name": "seval-ui",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack",
+    "start": "webpack --watch"
   },
   "author": "",
   "license": "ISC",
