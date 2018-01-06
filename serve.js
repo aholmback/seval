@@ -1,9 +1,10 @@
 const express = require('express')
-const ejs = express()
-const path = require('path')
+const app = express()
+const router = require('./router.js')
+const http = require('http');
+const server = http.createServer(app);
 
-ejs.use(express.static(path.resolve(__dirname, 'ui/dist')))
+app.use(router)
 
-ejs.get('/', (req, res) => res.sendFile(path.resolve(__dirname, 'ui/dist/index.html')))
-
-ejs.listen(3000, () => console.log('listening on port 3000'))
+server.listen(3000)
+server.on('listening', () => console.log('listening on port 3000'))
