@@ -1,5 +1,7 @@
 import os
 
+DEBUG = True
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '&0wf=yvnd3z8w#_v!f1r$e20uj8bjp33k5p%4qm%(hupc#^fmi'
 ALLOWED_HOSTS = ['*']
@@ -13,7 +15,9 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/home/alex/seval/ui/dist/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+WAGTAIL_SITE_NAME = 'Seval'
 
 CHANNEL_LAYERS = {
     'default': {
@@ -29,6 +33,22 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'wagtail.wagtailforms',
+    'wagtail.wagtailredirects',
+    'wagtail.wagtailembeds',
+    'wagtail.wagtailsites',
+    'wagtail.wagtailusers',
+    'wagtail.wagtailsnippets',
+    'wagtail.wagtaildocs',
+    'wagtail.wagtailimages',
+    'wagtail.wagtailsearch',
+    'wagtail.wagtailadmin',
+    'wagtail.wagtailcore',
+
+    'modelcluster',
+
+    'taggit',
     'channels',
 ]
 
@@ -40,6 +60,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'wagtail.wagtailcore.middleware.SiteMiddleware',
+    'wagtail.wagtailredirects.middleware.RedirectMiddleware',
 ]
 
 TEMPLATES = [
@@ -62,8 +84,9 @@ WSGI_APPLICATION = 'stash.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': 'localhost',
+    },
 }
-

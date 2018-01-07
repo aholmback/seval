@@ -1,2 +1,3 @@
 wagtail
 channels
+psycopg2

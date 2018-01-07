@@ -11,7 +11,7 @@ module.exports = {
   devtool: 'source-map',
   plugins: [
     new ManifestPlugin(),
-    new CleanWebpackPlugin([path.resolve(__dirname, 'dist')]),
+    new CleanWebpackPlugin([path.resolve(__dirname, 'dist')], { exclude: ['.keep']} ),
     new HtmlWebpackPlugin({
       title: 'Output Management',
       template: path.resolve(__dirname, 'src/index.html')

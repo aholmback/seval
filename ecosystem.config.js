@@ -21,5 +21,11 @@ module.exports = {
     args: 'runserver 0.0.0.0:8000',
     interpreter: './env/bin/python',
   },
+  {
+    name: 'db',
+    script: '/usr/bin/docker',
+    args: 'start seval-db --attach',
+    interpreter: null,
+  },
   ]
 }
