@@ -1,21 +1,24 @@
 import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-SECRET_KEY = '-- dev --'
-DEBUG = True
+SECRET_KEY = '&0wf=yvnd3z8w#_v!f1r$e20uj8bjp33k5p%4qm%(hupc#^fmi'
 ALLOWED_HOSTS = ['*']
-ROOT_URLCONF = 'urls'
+
+ROOT_URLCONF = 'stash.urls'
+
+LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
+USE_I18N = True
 USE_L10N = True
 USE_TZ = True
+
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_ROOT = '/home/alex/seval/ui/dist/static/'
 
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'asgiref.inmemory.ChannelLayer',
-        'ROUTING': 'routing.channel_routing',
+        'ROUTING': 'stash.routing.channel_routing',
     },
 }
 
@@ -30,17 +33,24 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -48,11 +58,12 @@ TEMPLATES = [
     },
 ]
 
+WSGI_APPLICATION = 'stash.wsgi.application'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
 
