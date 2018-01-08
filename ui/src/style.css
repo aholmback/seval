@@ -1,13 +1,4 @@
-@font-face {
-  font-family: 'RobotoRegular';
-  src: url('./roboto-regular.woff2') format('woff2'),
-       url('./roboto-regular.woff') format('woff');
-  font-weight: 600;
-  font-style: normal;
-}
-
-.hello {
-  font-family: 'RobotoRegular';
+.foo__bar {
+  font-family: sans-serif;
   color: green;
-  background: url('./icon.png');
 }

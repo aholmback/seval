@@ -4,21 +4,19 @@ const CleanWebpackPlugin = require('clean-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
 
 module.exports = {
-  entry: {
-    app: './src/index.js',
-    print: './src/print.js'
-  },
+  entry: './src/index.js',
   devtool: 'source-map',
   plugins: [
     new ManifestPlugin(),
     new CleanWebpackPlugin([path.resolve(__dirname, 'dist')], { exclude: ['.keep']} ),
     new HtmlWebpackPlugin({
-      title: 'Output Management',
-      template: path.resolve(__dirname, 'src/index.html')
+      filename: '../src/components/_preview.hbs',
+      title: 'Fractal Component Library',
+      template: path.resolve(__dirname, 'src/components/_preview.html')
     })
   ],
   output: {
-    filename: '[name].bundle.js',
+    filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
     publicPath: '/dist/'
   },
@@ -29,6 +27,12 @@ module.exports = {
         use: [
           'style-loader',
           'css-loader'
+        ]
+      },
+      {
+        test: /\.(html)$/,
+        use: [
+          'html-loader'
         ]
       },
       {

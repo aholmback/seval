@@ -14,6 +14,13 @@ module.exports = {
     args: 'start',
   },
   {
+    name: 'fractal',
+    script: '/usr/bin/npm',
+    watch: false,
+    cwd: './ui',
+    args: 'run fractal',
+  },
+  {
     name: 'stash',
     script: './manage.py',
     watch: false,

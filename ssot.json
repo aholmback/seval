@@ -1,0 +1,9 @@
+{
+  "components": {
+    "root": "ui/src/components/"
+  },
+  "public": {
+    "root": "public/"
+  }
+}
+
