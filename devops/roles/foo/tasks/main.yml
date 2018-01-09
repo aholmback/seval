@@ -1,0 +1,10 @@
+---
+- name: touch /tmp/bar
+  file:
+    name: /tmp/bar
+    state: touch
+
+- name: rm /tmp/bar
+  file:
+    name: /tmp/bar
+    state: absent

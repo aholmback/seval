@@ -1,0 +1,12 @@
+---
+
+- name: git rev-parse HEAD
+  shell: git rev-parse HEAD
+  register: revision
+
+- set_fact:
+    revision: "{{ revision.stdout }}"
+
+- name: git -C {{ repo }} archive --prefix {{ prefix }} -o {{ store }}{{ revision }}.tar.gz HEAD
+  command: git -C {{ repo }} archive --prefix {{ prefix }} -o {{ store }}{{ revision }}.tar.gz HEAD
+

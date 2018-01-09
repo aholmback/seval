@@ -4,6 +4,12 @@
   },
   "public": {
     "root": "public/"
+  },
+  "stash": {
+    "root": "stash/"
+  },
+  "ui": {
+    "root": "ui/"
   }
 }
 

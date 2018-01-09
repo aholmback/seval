@@ -1,0 +1,6 @@
+---
+ssot: "{{ lookup('file', '../ssot.json') | from_json }}"
+repo: "{{ root }}"
+store: /tmp/
+target: /home/seval/
+prefix: src/

@@ -1,0 +1,9 @@
+- name: pip install -r requirements.txt
+  pip:
+    requirements: "{{root}}{{ssot.stash.root}}/requirements.txt"
+    virtualenv: "{{root}}{{ssot.stash.root}}/env"
+    state: latest
+
+- name:
+  include_role:
+    name: postgres

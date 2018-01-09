@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+
+  vars:
+    root: "{{ playbook_dir }}/../"
+    ssot: "{{ lookup('file', '../ssot.json') | from_json }}"
+
+  roles:
+    - gitarchive
+
+- hosts: hammer
+
+  remote_user: root
+
+  vars:
+    revision: "{{ hostvars['localhost']['revision'] }}"
+
+  roles:
+    - hammer
+    - gitunarchive
+

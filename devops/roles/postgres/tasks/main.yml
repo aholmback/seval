@@ -1,0 +1,8 @@
+---
+- name: docker run --name seval-db -p 5432:5432 postgres
+  docker_container:
+    name: seval-db
+    state: started
+    image: postgres
+    ports:
+      - "5432:5432"

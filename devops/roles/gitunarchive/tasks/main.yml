@@ -1,0 +1,9 @@
+- name: Deploy source code
+  unarchive:
+    src: "{{ store }}{{ revision }}.tar.gz"
+    dest: "{{ target }}"
+
+- name: Copy source code revision identifier
+  copy:
+    content: "{{ revision }}"
+    dest: "{{ target }}revision"

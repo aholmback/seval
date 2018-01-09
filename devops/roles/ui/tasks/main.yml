@@ -1,0 +1,4 @@
+- name: npm install
+  npm:
+    path: "{{root}}{{ssot.ui.root}}"
+    state: latest
