@@ -1,6 +1,5 @@
 import $ from 'jquery'
-import './manifest.json'
+import transistor from './transistor.png'
+console.log(transistor)
 
-$('[data-src]').each((index, element) => {
-  $(element).attr('src', $(element).data('src'))
-})
+$('.img-transistor').attr('src', transistor)

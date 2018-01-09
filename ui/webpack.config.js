@@ -1,17 +1,13 @@
 const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CleanWebpackPlugin = require('clean-webpack-plugin')
-const ManifestPlugin = require('webpack-manifest-plugin')
 
 module.exports = {
   entry: './src/index.js',
   devtool: 'source-map',
   plugins: [
-    new ManifestPlugin(),
     new CleanWebpackPlugin([path.resolve(__dirname, 'dist')], { exclude: ['.keep']} ),
     new HtmlWebpackPlugin({
       filename: '../src/components/_preview.hbs',
-      title: 'Fractal Component Library',
       template: path.resolve(__dirname, 'src/components/_preview.html')
     })
   ],
