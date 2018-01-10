@@ -1,8 +1,13 @@
 ---
-- name: docker run --name seval-db -p 5432:5432 postgres
+- include_role:
+    name: docker
+
+- name: spin up postgres container
   docker_container:
-    name: seval-db
+    name: "{{ name }}"
     state: started
     image: postgres
     ports:
       - "5432:5432"
+    volumes:
+      "{{ data }}:/var/lib/postgresql/data"

@@ -1,21 +1,28 @@
 ---
-- hosts: localhost
+- hosts: hammer
 
   vars:
     root: "{{ playbook_dir }}/../"
     ssot: "{{ lookup('file', '../ssot.json') | from_json }}"
-
-  roles:
-    - gitarchive
-
-- hosts: hammer
+    user: seval
 
   remote_user: root
 
-  vars:
-    revision: "{{ hostvars['localhost']['revision'] }}"
+  tasks:
+    - include_role:
+        name: ui
+      vars:
+        ui:
+          root: "{{ root }}ui/"
 
-  roles:
-    - hammer
-    - gitunarchive
-
+    - include_role:
+        name: gitarchive
+    - include_role:
+        name: python
+      vars:
+        path: /home/seval/src/stash
+    - include_role:
+        name: postgres
+      vars:
+        name: seval-db
+        data: "{{ root }}/../seval-db/"

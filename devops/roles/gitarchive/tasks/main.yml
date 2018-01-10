@@ -1,12 +1,38 @@
 ---
-
-- name: git rev-parse HEAD
+- name: infer revision
   shell: git rev-parse HEAD
   register: revision
+  delegate_to: localhost
 
 - set_fact:
     revision: "{{ revision.stdout }}"
 
-- name: git -C {{ repo }} archive --prefix {{ prefix }} -o {{ store }}{{ revision }}.tar.gz HEAD
-  command: git -C {{ repo }} archive --prefix {{ prefix }} -o {{ store }}{{ revision }}.tar.gz HEAD
+- name: create archive
+  command: git -C {{ repo }} archive -o {{ store }}{{ revision }}.tar.gz HEAD
+  delegate_to: localhost
 
+- name: make way for deploy
+  become: true
+  become_user: "{{ user }}"
+  file:
+    path: "{{ target }}"
+    state: directory
+    recurse: true
+
+- name: deploy and unpack
+  become: true
+  become_user: "{{ user }}"
+  unarchive:
+    src: "{{ store }}{{ revision }}.tar.gz"
+    dest: "{{ target }}"
+
+- name: put revision ({{ revision }}) in {{ target }}revision
+  copy:
+    content: "{{ revision }}"
+    dest: "{{ target }}revision"
+
+- name: clean up in {{ store }}
+  file:
+    name: "{{ store }}{{ revision }}.tar.gz"
+    state: absent
+  delegate_to: localhost

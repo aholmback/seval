@@ -1,0 +1,11 @@
+---
+- import_tasks: setup.yml
+
+- name: install
+  package: name=docker-ce state=latest
+
+- name: enable start on boot
+  service:
+    name: docker
+    state: started
+    enabled: yes

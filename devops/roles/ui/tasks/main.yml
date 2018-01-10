@@ -1,4 +1,5 @@
-- name: npm install
-  npm:
-    path: "{{root}}{{ssot.ui.root}}"
-    state: latest
+- include_role:
+    name: node
+  vars:
+    version: "8.x"
+    path: "{{ ui.root }}"

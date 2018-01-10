@@ -1,0 +1,22 @@
+---
+- name: install python 3.5 and pip
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - python3.5
+    - python-pip
+
+- name: install virtualenv
+  pip:
+    name: virtualenv
+    state: latest
+
+- name: create virtual environment
+  become: true
+  become_user: "{{ user }}"
+  pip:
+    virtualenv: "{{ path }}/env/"
+    virtualenv_python: python3.5
+    state: latest
+    requirements: "{{ path }}/requirements.txt"
