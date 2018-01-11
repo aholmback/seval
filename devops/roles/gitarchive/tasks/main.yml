@@ -1,38 +1,16 @@
 ---
-- name: infer revision
-  shell: git rev-parse HEAD
-  register: revision
+- name: infer revision from local repo
+  command: git rev-parse HEAD
+  register: hash
   delegate_to: localhost
+
+- name: check deployed revision
+  command: "cat {{ target }}revision"
+  register: deployed_revision
 
 - set_fact:
-    revision: "{{ revision.stdout }}"
+    hash: "{{ hash.stdout }}"
+    deployed_revision: "{{ deployed_revision.stdout }}"
 
-- name: create archive
-  command: git -C {{ repo }} archive -o {{ store }}{{ revision }}.tar.gz HEAD
-  delegate_to: localhost
-
-- name: make way for deploy
-  become: true
-  become_user: "{{ user }}"
-  file:
-    path: "{{ target }}"
-    state: directory
-    recurse: true
-
-- name: deploy and unpack
-  become: true
-  become_user: "{{ user }}"
-  unarchive:
-    src: "{{ store }}{{ revision }}.tar.gz"
-    dest: "{{ target }}"
-
-- name: put revision ({{ revision }}) in {{ target }}revision
-  copy:
-    content: "{{ revision }}"
-    dest: "{{ target }}revision"
-
-- name: clean up in {{ store }}
-  file:
-    name: "{{ store }}{{ revision }}.tar.gz"
-    state: absent
-  delegate_to: localhost
+- include_tasks: commence.yml
+  when: hash != deployed_revision

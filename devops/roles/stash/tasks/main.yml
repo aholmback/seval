@@ -1,9 +1,11 @@
-- name: pip install -r requirements.txt
-  pip:
-    requirements: "{{root}}{{ssot.stash.root}}/requirements.txt"
-    virtualenv: "{{root}}{{ssot.stash.root}}/env"
-    state: latest
+---
+- include_role:
+    name: python
+  vars:
+    path: /home/seval/src/stash
 
-- name:
-  include_role:
+- include_role:
     name: postgres
+  vars:
+    name: seval-db
+    data: "{{ root }}/../seval-db/"

@@ -12,7 +12,7 @@
     name: virtualenv
     state: latest
 
-- name: create virtual environment
+- name: install requirements.txt in a virtual environment
   become: true
   become_user: "{{ user }}"
   pip:
