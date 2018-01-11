@@ -20,10 +20,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.css$/,
+        test: /\.(scss|css)$/,
         use: [
           'style-loader',
-          'css-loader'
+          'css-loader?importLoaders=3',
+          'postcss-loader?sourceMap=1',
+          'resolve-url-loader',
+          'sass-loader?sourceMap'
         ]
       },
       {

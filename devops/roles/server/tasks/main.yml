@@ -1,5 +1,0 @@
-- name: npm install
-  npm:
-    path: "{{root}}"
-    state: latest
-

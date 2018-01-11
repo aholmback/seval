@@ -1,8 +1,8 @@
 ---
-- name: Check that the somefile.conf exists
-    stat:
-      path: "{{ store }}{{ hash }}.tar.gz"
-    register: archive_exists
+- name: check if archive exists
+  stat:
+    path: "{{ store }}{{ hash }}.tar.gz"
+  register: archive_exists
 
 - name: create archive
   command: git archive -o {{ store }}{{ hash }}.tar.gz HEAD
@@ -10,7 +10,7 @@
     chdir: "{{ repo }}"
     creates: "{{ store }}{{ hash }}.tar.gz"
   delegate_to: localhost
-  when: not archive_exists
+  when: not archive_exists.stat.exists
 
 - name: make way for deploy
   become: true

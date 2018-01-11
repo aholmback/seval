@@ -14,9 +14,10 @@
 
 - name: install requirements.txt in a virtual environment
   become: true
-  become_user: "{{ user }}"
+  become_user: "{{ seval.os.user }}"
   pip:
-    virtualenv: "{{ path }}/env/"
+    virtualenv: "{{ item }}/env/"
     virtualenv_python: python3.5
     state: latest
-    requirements: "{{ path }}/requirements.txt"
+    requirements: "{{ item }}/requirements.txt"
+  with_items: environments

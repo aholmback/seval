@@ -4,9 +4,10 @@
   register: hash
   delegate_to: localhost
 
-- name: check deployed revision
+- name: check currently deployed revision
   command: "cat {{ target }}revision"
   register: deployed_revision
+  ignore_errors: yes
 
 - set_fact:
     hash: "{{ hash.stdout }}"

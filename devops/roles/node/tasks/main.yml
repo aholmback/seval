@@ -13,18 +13,21 @@
     repo: "{{ item }}"
     state: present
   with_items:
-    - "deb https://deb.nodesource.com/node_{{ version }} {{ ansible_distribution_release }} main"
-    - "deb-src https://deb.nodesource.com/node_{{ version }} {{ ansible_distribution_release }} main"
+    - "deb https://deb.nodesource.com/node_{{ seval.node.version }} {{ seval.os.release }} main"
+    - "deb-src https://deb.nodesource.com/node_{{ seval.node.version }} {{ seval.os.release }} main"
   register: node_repo
 
 - name: update apt cache
   apt: update_cache=yes
   when: node_repo.changed
 
-- name: install node {{ version }}
-  apt: "name=nodejs={{ version|regex_replace('x', '') }}* state=present"
+- name: install node
+  apt: "name=nodejs={{ seval.node.version|regex_replace('x', '') }}* state=present"
 
 - name: install node_modules
+  become: true
+  become_user: "{{ seval.os.user }}"
   npm:
-    path: "{{ path }}"
+    path: "{{ item }}"
     state: latest
+  with_items: environments

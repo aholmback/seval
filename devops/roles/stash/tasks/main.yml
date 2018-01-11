@@ -2,10 +2,8 @@
 - include_role:
     name: python
   vars:
-    path: /home/seval/src/stash
+    environments:
+      - "{{ root }}{{ seval.stash.path }}"
 
 - include_role:
     name: postgres
-  vars:
-    name: seval-db
-    data: "{{ root }}/../seval-db/"

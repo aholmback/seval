@@ -3,17 +3,23 @@
 
   vars:
     seval: "{{ lookup('file', '../ssot.json') | from_json }}"
+    root: "{{ playbook_dir }}/../"
 
   remote_user: root
 
   tasks:
-    - debug:
-        msg: "{{ playbook_dir }}"
+    - include_role:
+        name: node
+      vars:
+        envirionments:
+          - "{{ root }}{{ seval.ui.path }}"
+          - "{{ root }}{{ seval.server.path }}"
     - include_role:
         name: gitarchive
       vars:
-        repo: "{{ playbook_dir }}/.."
+        repo: "{{ root }}"
         store: /tmp/
-        target: /home/seval/src
+        target: /home/seval/src/
         user: "{{ seval.os.user }}"
+
 

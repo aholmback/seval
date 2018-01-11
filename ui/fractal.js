@@ -23,7 +23,7 @@ const handlebars = require('@frctl/handlebars')({
 
 fractal.set('project.title', package.name)
 
-fractal.components.set('path', path.resolve(ssot.root, ssot.components.root))
+fractal.components.set('path', path.resolve(ssot.root, ssot.components.path))
 
 /* fractal defaults to ".handlebars" */
 fractal.components.set('ext', '.hbs')
@@ -32,7 +32,7 @@ fractal.components.set('ext', '.hbs')
 fractal.web.set('server.syncOptions', {
   watchOptions: {
     ignored: [
-      path.resolve(ssot.root, ssot.components.root, '**/!(*.hbs|*.config.js)')
+      path.resolve(ssot.root, ssot.components.path, '**/!(*.hbs|*.config.js)')
     ]
   }
 })

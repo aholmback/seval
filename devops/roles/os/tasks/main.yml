@@ -1,0 +1,10 @@
+---
+- name: this on is called {{ seval.os.hostname }}
+  hostname:
+    name: {{ seval.os.hostname }}
+
+- name: useradd {{ seval.os.user }}
+  user:
+    name: {{ seval.os.user }}
+    shell: /bin/bash
+    createhome: true

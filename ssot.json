@@ -1,15 +1,28 @@
 {
+  "os": {
+    "distribution": "debian",
+    "release": "stretch",
+    "user": "seval",
+    "hostname": "hammer"
+  },
+  "node": {
+    "version": "9.x"
+  },
   "components": {
-    "root": "ui/src/components/"
+    "path": "ui/src/components/"
   },
   "public": {
     "root": "public/"
   },
-  "stash": {
-    "root": "stash/"
-  },
   "ui": {
-    "root": "ui/"
+    "path": "ui/"
+  },
+  "stash": {
+    "path": "stash/",
+    "postgres": {
+      "data_directory": "mnt/pgdata/",
+      "container": "seval-db"
+    }
   }
 }
 

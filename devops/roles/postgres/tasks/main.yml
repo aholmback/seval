@@ -4,10 +4,10 @@
 
 - name: spin up postgres container
   docker_container:
-    name: "{{ name }}"
+    name: "{{ seval.stash.postgres.container }}"
     state: started
     image: postgres
     ports:
       - "5432:5432"
     volumes:
-      "{{ data }}:/var/lib/postgresql/data"
+      "{{ seval.stash.postgres.data_directory }}:/var/lib/postgresql/data"
