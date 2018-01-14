@@ -1,3 +1,4 @@
 wagtail
 channels
+asgi_redis
 psycopg2

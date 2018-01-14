@@ -1,0 +1,10 @@
+---
+- name: spin up redis container
+  docker_container:
+    name: "{{ name }}"
+    state: started
+    image: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      "{{ volume_root }}{{ name }}:/data"

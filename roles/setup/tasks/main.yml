@@ -1,0 +1,11 @@
+---
+- include_role:
+    name: docker
+
+- include_role:
+    name: python
+  vars:
+    executable: "{{ key.stash.vendor }}"
+
+- include_role:
+    name: node

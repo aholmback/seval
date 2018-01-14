@@ -1,0 +1,10 @@
+---
+- name: touch "{{ key.local.archive }}bar"
+  file:
+    name: "{{ key.local.archive }}bar"
+    state: touch
+
+- name: rm "{{ key.local.archive }}bar"
+  file:
+    name: "{{ key.local.archive }}bar"
+    state: absent

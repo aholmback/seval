@@ -1,0 +1,6 @@
+---
+- include_tasks: python.yml
+  when: executable.startswith('python')
+
+- include_tasks: node.yml
+  when: executable == 'node'

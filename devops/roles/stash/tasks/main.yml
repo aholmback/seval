@@ -1,9 +1,0 @@
----
-- include_role:
-    name: python
-  vars:
-    environments:
-      - "{{ root }}{{ seval.stash.path }}"
-
-- include_role:
-    name: postgres

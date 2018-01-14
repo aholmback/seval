@@ -1,0 +1,44 @@
+---
+- name: remove old versions
+  package:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - docker
+    - docker-engine
+
+- name: ansible depends on pip package docker-py for this one
+  pip:
+    name: docker-py
+    state: latest
+
+- name: install apt dependencies
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - apt-transport-https
+    - ca-certificates
+
+- name: add apt key
+  apt_key:
+    url: https://download.docker.com/linux/{{ key.os.distribution }}/gpg
+    id: 9DC858229FC7DD38854AE2D88D81803C0EBFCD88
+    state: present
+
+- name: add apt repository
+  apt_repository:
+    repo: "deb https://download.docker.com/linux/{{ key.os.distribution }} {{ key.os.release }} stable"
+    state: present
+    update_cache: yes
+
+- name: install
+  package:
+    name: docker-ce
+    state: latest
+
+- name: enable start on boot
+  service:
+    name: docker
+    state: started
+    enabled: yes

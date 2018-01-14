@@ -8,8 +8,8 @@ const fractal = module.exports = require('@frctl/fractal').create()
 
 const package = require('./package.json')
 
-const ssot = require('../ssot.json')
-ssot.root = path.resolve(__dirname, '..')
+const key = require('../key.json')
+const root = path.resolve(__dirname, '..')
 
 const handlebars = require('@frctl/handlebars')({
   helpers: {
@@ -20,10 +20,9 @@ const handlebars = require('@frctl/handlebars')({
   }
 })
 
-
 fractal.set('project.title', package.name)
 
-fractal.components.set('path', path.resolve(ssot.root, ssot.components.path))
+fractal.components.set('path', path.resolve(root, key.components.path))
 
 /* fractal defaults to ".handlebars" */
 fractal.components.set('ext', '.hbs')
@@ -32,10 +31,10 @@ fractal.components.set('ext', '.hbs')
 fractal.web.set('server.syncOptions', {
   watchOptions: {
     ignored: [
-      path.resolve(ssot.root, ssot.components.path, '**/!(*.hbs|*.config.js)')
+      path.resolve(root, key.components.path, '**/!(*.hbs|*.config.js)')
     ]
   }
 })
 
 /* Distribution files will be under url /dist/ */
-fractal.web.set('static.path', path.resolve(ssot.root, ssot.public.root))
+fractal.web.set('static.path', path.resolve(root, key.public.root))

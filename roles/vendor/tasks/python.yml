@@ -1,0 +1,19 @@
+---
+- name: make way for vendor ({{ path }}env/)
+  file:
+    path: "{{ path }}env/"
+    state: directory
+    recurse: true
+
+- name: create symbolic link for environment ({{ mount }}env/)
+  file:
+    src: "{{ path }}env/"
+    dest: "{{ mount }}env"
+    state: link
+
+- name: install requirements.txt in a virtual environment
+  pip:
+    virtualenv: "{{ mount }}env/"
+    virtualenv_python: "{{ executable }}"
+    state: latest
+    requirements: "{{ mount }}requirements.txt"

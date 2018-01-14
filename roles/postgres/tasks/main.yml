@@ -1,0 +1,10 @@
+---
+- name: spin up postgres container
+  docker_container:
+    name: "{{ name }}"
+    state: started
+    image: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      "{{ volume_root }}{{ name }}:/var/lib/postgresql/data"

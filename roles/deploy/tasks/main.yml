@@ -1,0 +1,10 @@
+---
+- name: this on is called {{ key.os.hostname }}
+  hostname:
+    name: "{{ key.os.hostname }}"
+
+- name: useradd {{ key.os.user }}
+  user:
+    name: "{{ key.os.user }}"
+    shell: /bin/bash
+    createhome: true

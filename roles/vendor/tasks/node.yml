@@ -1,0 +1,17 @@
+---
+- name: make way for vendor ({{ path }}env/)
+  file:
+    path: "{{ path }}node_modules/"
+    state: directory
+    recurse: true
+
+- name: create symbolic link for environment ({{ mount }}env/)
+  file:
+    src: "{{ path }}node_modules/"
+    dest: "{{ mount }}node_modules"
+    state: link
+
+- name: install node_modules
+  npm:
+    path: "{{ mount }}"
+    state: latest

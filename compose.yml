@@ -1,0 +1,7 @@
+---
+set_fact:
+  root: "{{ playbook_dir }}/"
+  key: "{{ lookup('file', 'key.json') | from_json }}"
+
+- import_playbook: setup.yml
+- import_playbook: unfold.yml

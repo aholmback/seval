@@ -1,0 +1,45 @@
+{
+  "local": {
+    "archive": "/tmp/"
+  },
+  "os": {
+    "distribution": "debian",
+    "release": "stretch",
+    "user": "seval",
+    "hostname": "hammer",
+    "mountpoint": "/home/seval/src/"
+  },
+  "node": {
+    "version": "9.x"
+  },
+  "components": {
+    "path": "ui/src/components/"
+  },
+  "data": {
+    "path": "data/"
+  },
+  "public": {
+    "root": "public/"
+  },
+  "vendor": {
+    "path": "vendor/"
+  },
+  "server": {
+    "path": "server/",
+    "vendor": "node"
+  },
+  "ui": {
+    "path": "ui/",
+    "vendor": "node"
+  },
+  "stash": {
+    "path": "stash/",
+    "vendor": "python3.5",
+    "redis": {
+      "name": "stash-redis"
+    },
+    "postgres": {
+      "name": "stash-postgres"
+    }
+  }
+}

@@ -1,5 +1,0 @@
-- include_role:
-    name: node
-  vars:
-    version: "8.x"
-    path: "{{ ui.root }}"

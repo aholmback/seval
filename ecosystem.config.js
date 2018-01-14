@@ -1,37 +1,54 @@
+const key = require('./key.json')
+
 module.exports = {
   apps : [
   {
     name: 'server',
-    script: 'server.js',
-    watch: ['./'],
-    ignore_watch: ['node_modules', 'ui', 'stash'],
-  },
-  {
-    name: 'ui',
+    cwd: './server',
     script: '/usr/bin/npm',
-    watch: false,
-    cwd: './ui',
+    watch: ['server'],
     args: 'start',
   },
   {
-    name: 'fractal',
+    name: 'ui',
+    cwd: './ui',
     script: '/usr/bin/npm',
     watch: false,
+    args: 'run watch',
+  },
+  {
+    name: 'fractal',
     cwd: './ui',
+    script: '/usr/bin/npm',
+    watch: false,
     args: 'run fractal',
   },
   {
-    name: 'stash',
-    script: './manage.py',
-    watch: false,
+    name: 'stash_interface',
     cwd: './stash',
-    args: 'runserver 0.0.0.0:8000',
+    script: './env/bin/daphne',
+    watch: false,
+    args: '-b 0.0.0.0 stash.asgi:channel_layer',
     interpreter: './env/bin/python',
   },
   {
-    name: 'db',
+    name: 'stash_workers',
+    cwd: './stash',
+    script: './manage.py',
+    watch: false,
+    args: 'runworker',
+    interpreter: './env/bin/python',
+  },
+  {
+    name: 'postgres',
     script: '/usr/bin/docker',
-    args: 'start seval-db --attach',
+    args: `start ${key.stash.postgres.name} --attach`,
+    interpreter: null,
+  },
+  {
+    name: 'redis',
+    script: '/usr/bin/docker',
+    args: `start ${key.stash.redis.name} --attach`,
     interpreter: null,
   },
   ]

@@ -1,14 +1,9 @@
 {
-  "name": "seval-ui",
-  "version": "1.0.0",
-  "description": "",
   "scripts": {
     "build": "webpack",
-    "start": "webpack --watch",
+    "watch": "webpack --watch",
     "fractal": "fractal start --sync"
   },
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "@frctl/fractal": "^1.1.7",
     "clean-webpack-plugin": "^0.1.17",

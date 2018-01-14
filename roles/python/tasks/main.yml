@@ -1,0 +1,13 @@
+---
+- name: install python and pip
+  apt:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - "{{ executable }}"
+    - python-pip
+
+- name: install virtualenv
+  pip:
+    name: virtualenv
+    state: latest

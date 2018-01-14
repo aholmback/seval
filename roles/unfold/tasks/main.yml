@@ -1,0 +1,26 @@
+---
+- include_role:
+    name: vendor
+  vars:
+    path: "{{ root }}{{ key.vendor.path }}{{ key.stash.path }}"
+    mount: "{{ root }}{{ key.stash.path }}"
+    executable: "{{ key.stash.vendor }}"
+  
+- include_role:
+    name: vendor
+  vars:
+    path: "{{ root }}{{ key.vendor.path }}{{ key.ui.path }}"
+    mount: "{{ root }}{{ key.ui.path }}"
+    executable: "{{ key.ui.vendor }}"
+  
+- include_role:
+    name: postgres
+  vars:
+    name: "{{ key.stash.postgres.name }}"
+    volume_root: "{{ root }}{{ key.data.path }}"
+
+- include_role:
+    name: redis
+  vars:
+    name: "{{ key.stash.redis.name }}"
+    volume_root: "{{ root }}{{ key.data.path }}"

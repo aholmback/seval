@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+
+  vars:
+    root: "{{ playbook_dir }}/"
+    key: "{{ lookup('file', 'key.json') | from_json }}"
+
+  roles:
+    - unfold
