@@ -14,6 +14,20 @@
     executable: "{{ key.ui.vendor }}"
   
 - include_role:
+    name: vendor
+  vars:
+    path: "{{ root }}{{ key.vendor.path }}{{ key.server.path }}"
+    mount: "{{ root }}{{ key.server.path }}"
+    executable: "{{ key.server.vendor }}"
+  
+- include_role:
+    name: vendor
+  vars:
+    path: "{{ root }}{{ key.vendor.path }}{{ key.test.path }}"
+    mount: "{{ root }}{{ key.test.path }}"
+    executable: "{{ key.test.vendor }}"
+  
+- include_role:
     name: postgres
   vars:
     name: "{{ key.stash.postgres.name }}"

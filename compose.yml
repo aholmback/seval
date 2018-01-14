@@ -1,7 +1,18 @@
 ---
-set_fact:
-  root: "{{ playbook_dir }}/"
-  key: "{{ lookup('file', 'key.json') | from_json }}"
+- hosts: tin
 
-- import_playbook: setup.yml
-- import_playbook: unfold.yml
+  remote_user: root
+
+  vars:
+    root: "{{ playbook_dir }}/"
+    key: "{{ lookup('file', 'key.json') | from_json }}"
+    owner: "{{ hostuser | default(key.os.user) }}"
+
+  tasks:
+    - import_role:
+        name: setup
+
+    - import_role:
+        name:  unfold
+      become: true
+      become_user: "{{ owner }}"

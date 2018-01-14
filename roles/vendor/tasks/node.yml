@@ -1,11 +1,11 @@
 ---
-- name: make way for vendor ({{ path }}env/)
+- name: make way for vendor ({{ path }}node_modules/)
   file:
     path: "{{ path }}node_modules/"
     state: directory
     recurse: true
 
-- name: create symbolic link for environment ({{ mount }}env/)
+- name: create symbolic link for environment ({{ mount }}node_modules/)
   file:
     src: "{{ path }}node_modules/"
     dest: "{{ mount }}node_modules"

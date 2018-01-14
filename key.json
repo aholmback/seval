@@ -28,6 +28,10 @@
     "path": "server/",
     "vendor": "node"
   },
+  "test": {
+    "path": "test/",
+    "vendor": "node"
+  },
   "ui": {
     "path": "ui/",
     "vendor": "node"
@@ -36,10 +40,10 @@
     "path": "stash/",
     "vendor": "python3.5",
     "redis": {
-      "name": "stash-redis"
+      "name": "redis"
     },
     "postgres": {
-      "name": "stash-postgres"
+      "name": "postgres"
     }
   }
 }

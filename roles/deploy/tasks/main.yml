@@ -7,4 +7,13 @@
   user:
     name: "{{ key.os.user }}"
     shell: /bin/bash
-    createhome: true
+
+ - include_role:
+        name: gitarchive
+      vars:
+        repo: "{{ root }}"
+        store: "{{ key.local.archive }}"
+        target: "{{ os.mountpoint }}"
+        user: "{{ key.os.user }}"
+
+   createhome: true

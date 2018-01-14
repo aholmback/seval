@@ -6,7 +6,7 @@ module.exports = {
     name: 'server',
     cwd: './server',
     script: '/usr/bin/npm',
-    watch: ['server'],
+    watch: ['./'],
     args: 'start',
   },
   {
