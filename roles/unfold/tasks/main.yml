@@ -35,7 +35,7 @@
   include_role:
     name: vendor
   vars:
-    path: "{{ root }}{{ key.devops.path }}{{ key.devops.path }}"
+    path: "{{ root }}{{ key.vendor.path }}{{ key.devops.path }}"
     mount: "{{ root }}{{ key.devops.path }}"
     executable: "{{ key.devops.vendor }}"
   

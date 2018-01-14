@@ -27,6 +27,7 @@ module.exports = {
   },
   {
     name: 'stash_interface',
+    cwd: `${root}${key.stash.path}`,
     script: `${root}${key.stash.path}env/bin/daphne`,
     watch: false,
     args: '-b 0.0.0.0 stash.asgi:channel_layer',
