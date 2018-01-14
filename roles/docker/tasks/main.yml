@@ -1,4 +1,10 @@
 ---
+- name: add user {{ owner }} to group docker
+  user:
+    name: "{{ owner }}"
+    groups: docker
+    append: yes
+
 - name: remove old versions
   package:
     name: "{{ item }}"

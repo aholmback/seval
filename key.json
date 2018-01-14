@@ -24,6 +24,10 @@
   "vendor": {
     "path": "vendor/"
   },
+  "devops": {
+    "path": "",
+    "vendor": "node"
+  },
   "server": {
     "path": "server/",
     "vendor": "node"

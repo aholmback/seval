@@ -5,6 +5,7 @@
     state: latest
   with_items:
     - "{{ executable }}"
+    - "{{ executable }}-dev"
     - python-pip
 
 - name: install virtualenv
