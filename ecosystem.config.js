@@ -1,43 +1,43 @@
+const path = require('path')
 const key = require('./key.json')
+const root = __dirname + '/'
 
 module.exports = {
   apps : [
   {
     name: 'server',
-    cwd: './server',
+    cwd: `${root}${key.server.path}`,
     script: '/usr/bin/npm',
-    watch: ['./'],
+    watch: [`${root}${key.server.path}`],
     args: 'start',
   },
   {
     name: 'ui',
-    cwd: './ui',
+    cwd: `${root}${key.ui.path}`,
     script: '/usr/bin/npm',
     watch: false,
     args: 'run watch',
   },
   {
     name: 'fractal',
-    cwd: './ui',
+    cwd: `${root}${key.ui.path}`,
     script: '/usr/bin/npm',
     watch: false,
     args: 'run fractal',
   },
   {
     name: 'stash_interface',
-    cwd: './stash',
-    script: './env/bin/daphne',
+    script: `${root}${key.stash.path}env/bin/daphne`,
     watch: false,
     args: '-b 0.0.0.0 stash.asgi:channel_layer',
-    interpreter: './env/bin/python',
+    interpreter: `${root}${key.stash.path}env/bin/python`,
   },
   {
     name: 'stash_workers',
-    cwd: './stash',
-    script: './manage.py',
-    watch: false,
+    script: `${root}${key.stash.path}manage.py`,
+    watch: [`${root}${key.stash.path}`],
     args: 'runworker',
-    interpreter: './env/bin/python',
+    interpreter: `${root}${key.stash.path}env/bin/python`,
   },
   {
     name: 'postgres',
