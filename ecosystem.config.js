@@ -2,34 +2,39 @@ const path = require('path')
 const key = require('./key.json')
 const root = __dirname + '/'
 
-module.exports = {
-  apps : [
+const common = {
+  error_file: `${root}seval.log`,
+  out_file: `${root}seval.log`,
+  merge_logs: true,
+  log_date_format: '☺ HH:mm:ss ☺',
+  watch: false,
+}
+
+const apps = [
   {
     name: 'server',
     cwd: `${root}${key.server.path}`,
     script: '/usr/bin/npm',
     watch: [`${root}${key.server.path}`],
+    ignore_watch: [`${root}${key.server.path}node_modules`],
     args: 'start',
   },
   {
     name: 'ui',
     cwd: `${root}${key.ui.path}`,
     script: '/usr/bin/npm',
-    watch: false,
     args: 'run watch',
   },
   {
     name: 'fractal',
     cwd: `${root}${key.ui.path}`,
     script: '/usr/bin/npm',
-    watch: false,
     args: 'run fractal',
   },
   {
     name: 'stash_interface',
     cwd: `${root}${key.stash.path}`,
     script: `${root}${key.stash.path}env/bin/daphne`,
-    watch: false,
     args: '-b 0.0.0.0 stash.asgi:channel_layer',
     interpreter: `${root}${key.stash.path}env/bin/python`,
   },
@@ -52,5 +57,12 @@ module.exports = {
     args: `start ${key.stash.redis.name} --attach`,
     interpreter: null,
   },
-  ]
+]
+
+for(var i=0; i < apps.length; i++) {
+  for(var k in common) {
+    apps[i][k] = apps[i][k] || common[k]
+  }
 }
+
+module.exports = apps

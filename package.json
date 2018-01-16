@@ -1,5 +1,13 @@
 {
+  "scripts": {
+    "test": "mocha"
+  },
   "dependencies": {
     "pm2": "^2.9.1"
+  },
+  "devDependencies": {
+    "mocha": "^4.1.0",
+    "request": "^2.83.0",
+    "should": "^13.2.0"
   }
 }

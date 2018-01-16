@@ -23,14 +23,6 @@
     mount: "{{ root }}{{ key.server.path }}"
     executable: "{{ key.server.vendor }}"
   
-- name: link vendor for test
-  include_role:
-    name: vendor
-  vars:
-    path: "{{ root }}{{ key.vendor.path }}{{ key.test.path }}"
-    mount: "{{ root }}{{ key.test.path }}"
-    executable: "{{ key.test.vendor }}"
-  
 - name: link vendor for devops
   include_role:
     name: vendor

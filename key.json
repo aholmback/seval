@@ -10,7 +10,7 @@
     "mountpoint": "/home/seval/src/"
   },
   "node": {
-    "version": "9.x"
+    "version": "8.x"
   },
   "components": {
     "path": "ui/src/components/"
@@ -24,16 +24,15 @@
   "vendor": {
     "path": "vendor/"
   },
+  "test": {
+    "path": "test/"
+  },
   "devops": {
     "path": "",
     "vendor": "node"
   },
   "server": {
     "path": "server/",
-    "vendor": "node"
-  },
-  "test": {
-    "path": "test/",
     "vendor": "node"
   },
   "ui": {
