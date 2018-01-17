@@ -1,5 +1,5 @@
 ---
-- name: spin up postgres container
+- name: start docker container for postgres
   docker_container:
     name: "{{ name }}"
     state: started

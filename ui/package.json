@@ -2,7 +2,7 @@
   "scripts": {
     "build": "webpack",
     "watch": "webpack --watch",
-    "fractal": "fractal start --sync"
+    "fractal": "fractal start --sync --port 4000"
   },
   "devDependencies": {
     "@frctl/fractal": "^1.1.7",

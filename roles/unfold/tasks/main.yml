@@ -31,14 +31,23 @@
     mount: "{{ root }}{{ key.devops.path }}"
     executable: "{{ key.devops.vendor }}"
   
-- include_role:
+- name: setup postgres for stash
+  include_role:
     name: postgres
   vars:
     name: "{{ key.stash.postgres.name }}"
     volume_root: "{{ root }}{{ key.data.path }}"
 
-- include_role:
+- name: setup redis for stash
+  include_role:
     name: redis
   vars:
     name: "{{ key.stash.redis.name }}"
+    volume_root: "{{ root }}{{ key.data.path }}"
+
+- name: collect statics for stash
+  include_role:
+    name: django
+  vars:
+    path: "{{ key.stash.redis.name }}"
     volume_root: "{{ root }}{{ key.data.path }}"

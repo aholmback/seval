@@ -1,0 +1,8 @@
+---
+- name: Collect static files
+  become: yes
+  become_user: "{{ owner }}"
+  django_manage:
+    command: collectstatic
+    app_path: "{{ path }}"
+    virtualenv: "{{ path }}env"
