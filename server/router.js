@@ -1,12 +1,13 @@
 const path = require('path')
 const request = require('request')
 const express = require('express')
-const component = require('./component.js')('pages/index')
-
 const router = express.Router()
+const template = require('./templates/bundle.js')
 
 router.get('/', (req, res, next) => {
-  component.observe(component.events.done, next)
+  request('http://localhost:8000/contexts/foo/bar?id=3', (error, response, body) => {
+    res.send(template['pages/index'](JSON.parse(body)))
+  })
 })
 
 router.get('/hello', (req, res) => {

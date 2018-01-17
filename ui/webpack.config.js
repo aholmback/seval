@@ -1,4 +1,7 @@
 const path = require('path')
+const key = require('../key.json')
+const root = path.resolve(__dirname, '..') + '/'
+
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CleanWebpackPlugin = require('clean-webpack-plugin')
 const nodeExternals = require('webpack-node-externals')
@@ -54,10 +57,13 @@ module.exports = [
   },
   {
     target: 'node',
-    externals: [nodeExternals()],
+    externals: [nodeExternals({
+      modulesDir: `${root}${key.server.path}node_modules`,
+    })],
     entry: './src/templates.js',
     output: {
       filename: './templates/bundle.js',
+      libraryTarget: 'commonjs2'
     },
     module: {
       rules: [

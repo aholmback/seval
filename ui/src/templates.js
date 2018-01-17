@@ -1,2 +1,3 @@
-module.exports = require('./components/pages/index.hbs')
-
+module.exports = {
+  'pages/index': require('./components/pages/index.hbs'),
+}
