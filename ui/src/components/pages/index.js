@@ -1,2 +1,2 @@
-import './index.scss'
 import '../foo/bar.js'
+import './index.scss'

@@ -8,6 +8,7 @@
   "devDependencies": {
     "mocha": "^4.1.0",
     "request": "^2.83.0",
+    "resolve-url-loader": "^2.2.1",
     "should": "^13.2.0"
   }
 }

@@ -1,4 +1,9 @@
 .foo__bar {
+  padding: 20px;
+  font-family: Roboto;
+  color: $brick-red;
+  background-color: $sea-gull;
+}
+.foo__bar h1 {
   font-family: sans-serif;
-  color: green;
 }
