@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from cms.models import FooPage
 from . import components
 
 def context(request, component):

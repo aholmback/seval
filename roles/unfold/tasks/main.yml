@@ -45,9 +45,8 @@
     name: "{{ key.stash.redis.name }}"
     volume_root: "{{ root }}{{ key.data.path }}"
 
-- name: collect statics for stash
+- name: prepare django in {{ root }}{{ key.stash.path }}
   include_role:
     name: django
   vars:
-    path: "{{ key.stash.redis.name }}"
-    volume_root: "{{ root }}{{ key.data.path }}"
+    path: "{{ root }}{{ key.stash.path }}"

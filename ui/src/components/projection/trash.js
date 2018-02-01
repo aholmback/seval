@@ -1,89 +1,150 @@
+const Animation = require('./animation.js')
+const animation = new Animation('projection')
 
-function Mat3(elements) {
 
-  this.elements = elements
+class SampleBox {
+  render(lm) {
+    new Compass().render(lm)
+    new Cube().render(lm)
+  }
+}
 
-  this.element = function(x, y) {
-    return elements[y * 3 + x];
-  };
-
-  this.multiply = function(other) {
-    if (other instanceof Vec3) {
-
-      var elements = [];
-      for (var y = 0; y < 3; ++y) {
-        var sum = 0;
-        for (var x = 0; x < 3; ++x) {
-          sum += other.element(x) * this.element(x, y);
-        }
-        elements.push(sum);
+class Compass {
+  constructor(context) {
+    this.parameters = {
+      x: {
+        color: '#F06',
+        label: {
+          position: [30, 0, 0],
+          text: 'X',
+        },
+        start: [0, 0, 0],
+        end: [20, 0, 0],
+      },
+      y: {
+        color: '#F90',
+        label: {
+          position: [0, 30, 0],
+          text: 'Y',
+        },
+        start: [0, 0, 0],
+        end: [0, 20, 0],
+      },
+      z: {
+        color: '#09C',
+        label: {
+          position: [0, 0, 30],
+          text: 'Z',
+        },
+        start: [0, 0, 0],
+        end: [0, 0, 20],
       }
-
-      return new Vec3(elements);
-    } else {
-
-      var elements = [];
-      for (var z = 0; z < 3; ++z) {
-        for (var y = 0; y < 3; ++y) {
-          var sum = 0;
-          for (var x = 0; x < 3; ++x) {
-            sum += other.element(y, x) * this.element(x, z);
-          }
-          elements.push(sum);
-        }
-      }
-
-      return new Mat3(elements);
     }
-  };
+  }
+
+  render(lm) {
+    this.renderAxis(this.parameters.x, lm)
+    this.renderAxis(this.parameters.y, lm)
+    this.renderAxis(this.parameters.z, lm)
+  }
+
+  renderAxis(axis, lm) {
+    context.save();
+    context.textBaseline = 'middle';
+    context.textAlign = 'center';
+
+    var labelPosition = lm.map(axis['label']['position'])
+    var start = lm.map(axis['start'])
+    var end = lm.map(axis['end'])
+
+    context.textBaseline = 'middle';
+    context.textAlign = 'center';
+
+    context.strokeStyle = axis['color'];
+    context.fillStyle = axis['color'];
+
+    context.fillText(axis['label']['text'], labelPosition[0], labelPosition[1]);
+    context.beginPath();
+    context.moveTo(start[0], start[1])
+    context.lineTo(end[0], end[1]);
+    context.stroke();
+    context.restore();
+  }
 }
 
-Mat3.identity = function() {
-  return new Mat3([
-    1.0, 0.0, 0.0,
-    0.0, 1.0, 0.0,
-    0.0, 0.0, 1.0
-  ]);
+
+class Polygon {
+  constructor(context, vectors) {
+    this.context = context
+    this.vectors = vectors.slice()
+
+    let scale = new LinearMap([30, 0, 0, 0, 30, 0, 0, 0, 30])
+    this.transform(scale.map.bind(scale))
+  }
+
+  transform(map) {
+    for (var i = 0; i < this.vectors.length; i++) {
+      this.vectors[i] = map(this.vectors[i])
+    }
+    return this
+  }
+
+  render() {
+
+    this.context.beginPath();
+
+    for (var j = 0; j < this.vectors.length; ++j) {
+      context.lineTo(this.vectors[j][0], this.vectors[j][1]);
+    }
+
+    context.closePath();
+    context.stroke();
+  }
 }
 
-Mat3.rotationX = function(angle) {
-  var a = Math.cos(angle);
-  var b = Math.sin(angle);
-  return new Mat3([
-    1.0, 0.0, 0.0,
-    0.0,   a,  -b,
-    0.0,   b,   a,
-  ]);
-};
 
-Mat3.rotationY = function(angle) {
-  var a = Math.cos(angle);
-  var b = Math.sin(angle);
-  return new Mat3([
-      a, 0.0,   b,
-    0.0, 1.0, 0.0,
-     -b, 0.0,   a,
-  ]);
-};
+animation.observe(animation.events.repaint, function(event, context, timestamp) {
+
+	context.clearRect(- context.canvas.width / 2, - context.canvas.height / 2, context.canvas.width, context.canvas.height)
 
 
-Mat3.rotationZ = function(angle) {
-  var a = Math.cos(angle);
-  var b = Math.sin(angle);
-  return new Mat3([
-      a,  -b, 0.0,
-      b,   a, 0.0,
-    0.0, 0.0, 1.0,
-  ]);
-};
+  var lm = new LinearMap()
+  var t = (timestamp || 0) / 1000
+  var a = Math.cos(t)
+  var b = Math.sin(t)
 
-Mat3.isometric = function(angle) {
-  var a = Math.cos(angle);
-  var b = Math.sin(angle);
-  return new Mat3([
-     a, 0, a,
-    -b, 1, b,
-     0, 0, 0
-  ]);
-};
 
+  var rotateX = (v) => {
+    return [
+      1, 0, 0,
+      0, a,-b,
+      0, b, a,
+    ]
+  }
+
+  var rotateY = (v) => {
+    return [
+      a, 0, b,
+      0, 1, 0,
+     -b, 0, a,
+    ]
+  }
+
+  var skewZ = (v) => {
+    return [
+      1, 0, 0,
+      0, 1, 0,
+      0, 0, 1,
+    ]
+  }
+
+  lm.transform(rotateY)
+  lm.transform(rotateX)
+
+  lm.transform(skewZ)
+
+  new SampleBox().render(lm)
+
+});
+
+animation.start()

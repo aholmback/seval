@@ -1,4 +1,4 @@
-wagtail
+-e git://github.com/wagtail/wagtail.git@master#egg=wagtail
 channels
 asgi_redis
 psycopg2
