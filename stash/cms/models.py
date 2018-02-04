@@ -2,20 +2,22 @@ from django.db import models
 from django.http import JsonResponse
 
 from wagtail.core.models import Page
-from wagtail.core.fields import RichTextField
+from wagtail.core.fields import RichTextField, StreamField
 from wagtail.images.edit_handlers import ImageChooserPanel
-from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 from wagtail.core.utils import camelcase_to_underscore
 
 import contexts
 
+from . import blocks
+
 class DocumentationPage(Page):
 
-    richtext = RichTextField()
+    content = StreamField(blocks.ContentBlock())
 
     content_panels = [
             FieldPanel('title'),
-            FieldPanel('richtext'),
+            StreamFieldPanel('content'),
             ]
 
     component = 'pages/documentation'
@@ -28,15 +30,14 @@ class DocumentationPage(Page):
 
         return JsonResponse(component)
 
+
 class BlogPage(Page):
     date = models.DateField("Post date")
-    intro = models.CharField(max_length=250)
-    body = RichTextField(blank=True)
+    content = StreamField(blocks.ContentBlock())
 
     content_panels = Page.content_panels + [
         FieldPanel('date'),
-        FieldPanel('intro'),
-        FieldPanel('body', classname="full"),
+        StreamFieldPanel('content'),
     ]
 
     component = 'pages/blog'

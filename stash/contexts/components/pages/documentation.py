@@ -1,20 +1,21 @@
+from contexts.components import utils
+
 def render(page, request):
     posts = []
+    page = page.specific
 
     for post in page.get_children():
         post = post.specific
-        url = post.get_url()
+        url = utils.get_url(post, request)
 
-        url = request.META['HTTP_X_MOUNT_SOURCE'] + url[len(request.META['HTTP_X_MOUNT_TARGET']):]
 
         posts.append({
             'title': post.title,
-            'body': post.body,
             'url': url,
             })
 
     return {
             'title': page.title,
-            'richtext': page.richtext,
+            'richtext': str(page.content[0].value),
             'posts': posts,
             }
