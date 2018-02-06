@@ -15,19 +15,25 @@ import Victor from 'victor'
   }
 
   const collision = function(self, other) {
-    var t, n, d, s
+    var t, bounce, rel, w
 
-    d = self.position.distance(other.position) - (self.r + other.r)
+    rel = self.position.clone().subtract(other.position)
 
-    if (d < 0) {
-      n = self.position.clone().subtract(other.position).normalize()
-      t = self.velocity.dot(n)
-      self.velocity.add(Victor(-2 * t, -2 * t).multiply(n))
+    if (rel.length() < self.r + other.r) {
+      rel.normalize()
 
+      t = other.velocity.dot(rel) - self.velocity.dot(rel)
+      bounce = Victor(t, t).multiply(rel)
+
+      if (bounce.dot(rel) > 0) {
+        self.velocity.add(bounce)
+        other.velocity.subtract(bounce)
+      }
     }
   }
 
   const next = function(self) {
+    self.velocity.y = self.velocity.y + g
     var t
 
     // höjre
@@ -64,20 +70,18 @@ import Victor from 'victor'
 
   const a = {
     velocity: Victor(5, 5),
-    position: Victor(canvas.width / 2 - 100, canvas.height / 2),
+    position: Victor(canvas.width / 2 - 100, canvas.height / 2 - 100),
     r: 40,
     next: next,
     draw: draw,
-    collision: collision,
   }
   
   const b = {
-    velocity: Victor(1, -5),
-    position: Victor(canvas.width / 2 + 100, canvas.height / 2),
+    velocity: Victor(0, 0),
+    position: Victor(canvas.width / 2 + 100, canvas.height / 2 + 100),
     r: 40,
     next: next,
     draw: draw,
-    collision: collision,
   }
 
   const repaint = function() {
@@ -87,7 +91,7 @@ import Victor from 'victor'
     a.next(a)
     b.next(b)
 
-    a.collision(a, b)
+    collision(a, b)
 
     a.draw(a, context)
     b.draw(b, context)
