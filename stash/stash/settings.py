@@ -64,6 +64,7 @@ INSTALLED_APPS = [
 
         'cms',
         'contexts',
+        'voxels',
         ]
 
 MIDDLEWARE = [
