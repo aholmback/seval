@@ -21,19 +21,19 @@ def tube(request):
     config = []
 
     while size > 0:
-        steps = random.randint(0, 5)
+        steps = random.randint(1, 4)
         config.append(
                 { random.choice(list(Tube.DIRECTIONS)): steps }
                 )
         size -= steps
 
-    t = Tube([
-        { Tube.RIGHT: 1 },
-        { Tube.DOWN: 1 },
-        ])
-
+    t = Tube(config)
 
     return HttpResponse(
-            json.dumps([list(v.vector) for v in t.voxels]),
+            json.dumps({
+                'data': {
+                    'voxels': [list(v.vector) for v in t.voxels],
+                    'hash': hash(t),
+                    }}),
             content_type='application/json',
             )

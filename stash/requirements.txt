@@ -2,3 +2,4 @@
 channels
 asgi_redis
 psycopg2
+numpy

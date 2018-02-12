@@ -8,9 +8,6 @@ class Voxel:
         self.z = z
         self.vector = tuple(self)
 
-    def index(self, base):
-        return self[0] * base[1] * base[2] + self[1] * base[2] + self[2]
-
     def rotate(self, x, y, z):
         return Voxel(self[x], self[y], self[z])
 
@@ -23,9 +20,6 @@ class Voxel:
     def __getitem__(self, key):
         return [self.x, self.y, self.z][key]
 
-    def __list__(self):
-        return list(self)
-
     def __add__(self, other):
         return Voxel(*[a + b for a, b in zip(self, other)])
 
@@ -34,9 +28,6 @@ class Voxel:
 
     def __iter__(self):
         return iter([self.x, self.y, self.z])
-
-    def __dict__(self):
-        return self.vector.__dict__
 
     def __str__(self):
         return str(self.vector)
@@ -65,27 +56,14 @@ class Tube:
 
     def __init__(self, config):
         self.size = Voxel(1, 1, 1)
-        self.voxels = [ Voxel(0, 0, 0) ]
+        self._voxels = [ Voxel(0, 0, 0) ]
+        self.voxels = frozenset(self._voxels)
 
         self._configure(config)
-
-        # Vector for top-left-out corner to origin
-        to_origin = self.voxels[0]
-        for voxel in self.voxels:
-            to_origin = Voxel(*[min(a, b) for a, b in zip(to_origin, voxel)])
-
-        # Move by vector ↖
-        for i, voxel in enumerate(self.voxels):
-            self.voxels[i] -= to_origin
-
-        # Rotate to lowest hash
-        self._rotate()
-
-        # Remove redundant voxels and make collection unordered and hashable
-        self.voxels = frozenset(self.voxels)
+        self._normalize()
 
         # Update size
-        for v in self.voxels:
+        for v in self._voxels:
             self.size = Voxel(
                     max(self.size[0], v[0] + 1),
                     max(self.size[1], v[1] + 1),
@@ -102,14 +80,59 @@ class Tube:
             vector = self.DIRECTIONS[direction]
 
         for i in range(0, steps):
-            self.voxels.append(Voxel(*[a + b for a, b in zip(vector, self.voxels[-1])]))
+            self._voxels.append(Voxel(*[a + b for a, b in zip(vector, self._voxels[-1])]))
 
-    def _rotate(self):
-        rotations = [(hash(frozenset([v.rotate(*p) for v in self.voxels])), p) for p in permutations(range(3))]
-        rotations.sort(key=lambda r: r[0])
+        self.voxels = frozenset(self._voxels)
 
-        _hash, rotation = rotations[0]
+    def _transform(self, m):
+        for i, v in enumerate(self._voxels):
+            self._voxels[i] = Voxel(
+                    m[0][0] * v[0] + m[0][1] * v[1] + m[0][2] * v[2],
+                    m[1][0] * v[0] + m[1][1] * v[1] + m[1][2] * v[2],
+                    m[2][0] * v[0] + m[2][1] * v[1] + m[2][2] * v[2],
+                    )
+        
+        self._transpose(self._to_origin())
 
-        self.voxels = [v.rotate(*rotation) for v in self.voxels]
-        self.size = self.size.rotate(*rotation)
+    def _to_origin(self):
+        to_origin = self._voxels[0]
+        for voxel in self._voxels:
+            to_origin = Voxel(*[min(a, b) for a, b in zip(to_origin, voxel)])
 
+        return to_origin
+
+    def _transpose(self, by):
+        for i, voxel in enumerate(self._voxels):
+            self._voxels[i] -= by
+
+        self.voxels = frozenset(self._voxels)
+
+    def _normalize(self):
+        # x-axis π/2
+        rx = [ [1, 0, 0], [0, 0, -1], [0, 1, 0] ]
+
+        # y-axis π/2
+        ry = [ [0, 0, 1], [0, 1, 0], [-1, 0, 0] ]
+
+        # z-axis π/2
+        rz = [ [0, -1, 0], [1, 0, 0], [0, 0, 1] ]
+
+        _hash = hash(self)
+        _voxels = self.voxels.copy()
+
+        for r in range(24):
+            self._transform(rz)
+            if r % 4 == 0:
+                if r % 8 == 0:
+                    self._transform(rx)
+                else:
+                    self._transform(ry)
+
+            if _hash > hash(self):
+                _hash = hash(self)
+                _voxels = self.voxels.copy()
+
+        self.voxels = _voxels
+
+    def __hash__(self):
+        return hash(self.voxels)

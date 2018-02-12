@@ -7,20 +7,14 @@ class TubeTest(unittest.TestCase):
         t = Tube({})
         self.assertEqual(t.voxels, frozenset([ Voxel(0, 0, 0) ]))
 
-    def test_voxel_index(self):
-        result = [
-                ((0, 0, 0), 0),
-                ((0, 0, 1), 1),
-                ((0, 1, 0), 2),
-                ((0, 1, 1), 3),
-                ((1, 0, 0), 4),
-                ((1, 0, 1), 5),
-                ((1, 1, 0), 6),
-                ((1, 1, 1), 7),
-                ]
+    def test_voxel_hash(self):
+        t = Tube([
+            { Tube.DOWN: 2 },
+            { Tube.RIGHT: 2 },
+            { Tube.IN: 2 },
+            ])
 
-        for vector, index in result:
-            self.assertEqual(Voxel(*vector).index(Voxel(2, 2, 2)), index)
+        self.assertEqual(hash(t), -9132196317547368732)
 
     def test_size(self):
         t = Tube([
@@ -104,9 +98,65 @@ class TubeTest(unittest.TestCase):
 
         self.assertEqual(t1.voxels, t2.voxels)
 
+    def test_unique_shape_3(self):
+        t1 = Tube([
+            { Tube.LEFT: 3 },
+            { Tube.UP: 2 },
+            ])
+
+        t2 = Tube([
+            { Tube.RIGHT: 3 },
+            { Tube.DOWN: 1 },
+            ])
+
+        self.assertNotEqual(t1.voxels, t2.voxels)
+
+    def test_unique_shape_4(self):
+        t1 = Tube([
+            { Tube.LEFT: 3 },
+            { Tube.UP: 2 },
+            { Tube.RIGHT: 2 },
+            ])
+
+        t2 = Tube([
+            { Tube.RIGHT: 3 },
+            { Tube.DOWN: 2 },
+            { Tube.LEFT: 2 },
+            ])
+
+        self.assertEqual(t1.voxels, t2.voxels)
+
+    def test_unique_shape_5(self):
+        t1 = Tube([
+            { Tube.LEFT: 3 },
+            { Tube.UP: 2 },
+            { Tube.RIGHT: 3 },
+            { Tube.DOWN: 2 },
+            { Tube.LEFT: 2 },
+            ])
+
+        t2 = Tube([
+            { Tube.LEFT: 3 },
+            { Tube.UP: 2 },
+            { Tube.RIGHT: 3 },
+            { Tube.DOWN: 2 },
+            { Tube.LEFT: 2 },
+            ])
+
+        self.assertEqual(t1.voxels, t2.voxels)
+
     def test_json(self):
-        t = Tube({})
-        json.dumps([list(v) for v in t.voxels])
+        t = Tube([
+            { Tube.LEFT: 3 },
+            { Tube.UP: 2 },
+            { Tube.RIGHT: 3 },
+            { Tube.DOWN: 2 },
+            { Tube.LEFT: 2 },
+            ])
+
+        voxels = json.loads(json.dumps([list(v) for v in t.voxels]))
+
+        self.assertEqual([list(v) for v in t.voxels], voxels)
 
 if __name__ == '__main__':
     unittest.main()
