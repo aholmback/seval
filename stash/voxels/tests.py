@@ -1,31 +1,14 @@
 import unittest
-from generate import Tube, Voxel
 import json
+from generate import Tube
+from utils import Vector
 
 class TubeTest(unittest.TestCase):
     def test_init(self):
         t = Tube({})
-        self.assertEqual(t.voxels, frozenset([ Voxel(0, 0, 0) ]))
+        self.assertEqual(t.voxels, set([ Vector([0, 0, 0]) ]))
 
-    def test_voxel_hash(self):
-        t = Tube([
-            { Tube.DOWN: 2 },
-            { Tube.RIGHT: 2 },
-            { Tube.IN: 2 },
-            ])
-
-        self.assertEqual(hash(t), -9132196317547368732)
-
-    def test_size(self):
-        t = Tube([
-            { Tube.DOWN: 2 },
-            { Tube.RIGHT: 2 },
-            { Tube.IN: 2 },
-            ])
-
-        self.assertEqual(t.size, Voxel(3, 3, 3))
-
-    def test_sort_2(self):
+    def test_coordinates(self):
         t = Tube([
             { Tube.IN: 1 },
             { Tube.RIGHT: 1 },
@@ -47,9 +30,9 @@ class TubeTest(unittest.TestCase):
                 (1, 1, 1),
                 ]
 
-        self.assertEqual(frozenset(t.voxels), frozenset([Voxel(*v) for v in result]))
+        self.assertEqual(set(t.voxels), set([Vector(v) for v in result]))
 
-    def test_transpose_1(self):
+    def test_transpose(self):
         t1 = Tube([
             { Tube.LEFT: 2 },
             ])
