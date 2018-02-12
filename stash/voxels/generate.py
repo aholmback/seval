@@ -25,6 +25,9 @@ class Voxel:
 
     def __sub__(self, other):
         return Voxel(*[a - b for a, b in zip(self, other)])
+    
+    def __matmul__(self, m):
+        return Voxel(*[sum(m[j][i] * e for i, e in enumerate(self.vector)) for j in range(3)])
 
     def __iter__(self):
         return iter([self.x, self.y, self.z])
@@ -84,14 +87,10 @@ class Tube:
 
         self.voxels = frozenset(self._voxels)
 
-    def _transform(self, m):
+    def _transform(self, matrix):
         for i, v in enumerate(self._voxels):
-            self._voxels[i] = Voxel(
-                    m[0][0] * v[0] + m[0][1] * v[1] + m[0][2] * v[2],
-                    m[1][0] * v[0] + m[1][1] * v[1] + m[1][2] * v[2],
-                    m[2][0] * v[0] + m[2][1] * v[1] + m[2][2] * v[2],
-                    )
-        
+            self._voxels[i] @= matrix
+
         self._transpose(self._to_origin())
 
     def _to_origin(self):
