@@ -1,5 +1,5 @@
 ---
-- name: make way for vendor ({{ path }}node_modules/)
+- name: make way for vendors ({{ path }}node_modules/)
   file:
     path: "{{ path }}node_modules/"
     state: directory

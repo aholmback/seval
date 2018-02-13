@@ -1,0 +1,10 @@
+---
+- name: start docker container for mongo
+  docker_container:
+    name: "{{ name }}"
+    state: started
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      "{{ volume_root }}{{ name }}:/var/lib/postgresql/data"

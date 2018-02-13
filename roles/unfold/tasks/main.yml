@@ -45,6 +45,13 @@
     name: "{{ key.stash.redis.name }}"
     volume_root: "{{ root }}{{ key.data.path }}"
 
+- name: setup mongo for stash
+  include_role:
+    name: mongo
+  vars:
+    name: "{{ key.stash.redis.name }}"
+    volume_root: "{{ root }}{{ key.data.path }}"
+
 - name: prepare django in {{ root }}{{ key.stash.path }}
   include_role:
     name: django

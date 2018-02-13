@@ -1,5 +1,6 @@
--e git://github.com/wagtail/wagtail.git@master#egg=wagtail
+wagtail==2.0b1
 channels
 asgi_redis
 psycopg2
 numpy
+pymongo

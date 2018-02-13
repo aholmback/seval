@@ -1,5 +1,5 @@
 ---
-- name: make way for vendor ({{ path }}env/)
+- name: make way for vendors ({{ path }}env/)
   file:
     path: "{{ path }}env/"
     state: directory
