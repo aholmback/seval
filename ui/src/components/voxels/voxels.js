@@ -4,9 +4,8 @@ const Polygon = require('./polygon.js')
 fetch('http://192.168.30.128:3000/voxels/').then(response => {
   return response.json()
 }).then(body => {
-  let c = Canvas('voxels', body.data.voxels)
-  console.log(body.data.hash)
-  console.log(body.data.voxels)
+  console.log(body.data.vectors)
+  let c = Canvas('voxels', body.data.vectors)
   if (c) c.start()
 })
 

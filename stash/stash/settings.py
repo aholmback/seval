@@ -27,13 +27,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 WAGTAIL_SITE_NAME = 'Seval'
 
+ASGI_APPLICATION = "stash.routing.application"
+
 CHANNEL_LAYERS = {
         'default': {
-            'BACKEND': 'asgi_redis.RedisChannelLayer',
+            'BACKEND': 'channels_redis.core.RedisChannelLayer',
             'CONFIG': {
                 'hosts': [('localhost', 6379)],
                 },
-            'ROUTING': 'stash.routing.channel_routing',
             },
         }
 

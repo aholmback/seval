@@ -1,6 +1,5 @@
-from channels.routing import route
-from channels.handler import ViewConsumer
+from channels.routing import ProtocolTypeRouter
 
-channel_routing = [
-    route("http.request", ViewConsumer()),
-]
+application = ProtocolTypeRouter({
+    # Empty for now (http->django views is added by default)
+    })

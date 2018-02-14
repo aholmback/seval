@@ -1,6 +1,5 @@
 wagtail==2.0b1
 channels
-asgi_redis
+channels_redis
 psycopg2
-numpy
 pymongo

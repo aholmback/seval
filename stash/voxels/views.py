@@ -27,13 +27,16 @@ def tube(request):
                 )
         size -= steps
 
-    t = Tube(config)
+    t = Tube()
+
+    for d in config:
+        k = list(d)[0]
+        t.build(k, d[k])
 
     return HttpResponse(
             json.dumps({
                 'data': {
-                    'voxels': [list(v.vector) for v in t.voxels],
-                    'hash': hash(t),
+                    'vectors': t.vectors(),
                     }}),
             content_type='application/json',
             )
